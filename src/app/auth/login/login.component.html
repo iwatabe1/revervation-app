@@ -2,7 +2,7 @@
     <div class="page-header" style="background-image: url('./assets/img/login-image.jpg');">
         <div class="filter"></div>
             <div class="container">
-                <div class="row">
+                <div class="row justify-content-center">
                     <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
                       <div class="card card-register">
                           <h3 class="title">ログイン</h3>
@@ -17,7 +17,7 @@
                                   <i class="fa fa-twitter"></i>
                               </a>
                           </div>
-                          <form class="register-form">
+                          <form class="registerForm-form" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
                               <label>Email</label>
                               <div class="input-group form-group-no-border" [ngClass]="{'input-group-focus':focus===true}">
                                 <div class="input-group-prepend">
@@ -26,7 +26,17 @@
                                   </span>
                                 </div>
 
-                                  <input type="text" class="form-control" placeholder="Email" (focus)="focus=true" (blur)="focus=false" >
+                                  <input 
+                                    ngModel
+                                    name="email"
+                                    type="email" 
+                                    class="form-control" 
+                                    placeholder="Email" 
+                                    (focus)="focus=true" 
+                                    (blur)="focus=false" 
+                                    pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                                    required
+                                  >
                               </div>
 
                               <label>Password</label>
@@ -36,10 +46,25 @@
                                       <i class="nc-icon nc-key-25"></i>
                                   </span>
                                 </div>
-                                  <input type="text" class="form-control" placeholder="Password" (focus)="focus1=true" (blur)="focus1=false" >
+                                <input 
+                                    ngModel
+                                    name="password"
+                                    type="password" 
+                                    class="form-control" 
+                                    placeholder="パスワード入力:6文字以上" 
+                                    minlength="6"
+                                    (focus)="focus1=true" 
+                                    (blur)="focus1=false" 
+                                    required
+                                >
                               </div>
-                              <button class="btn btn-danger btn-block btn-round">ログイン</button>
+                              <button [disabled]="!loginForm.valid" class="btn btn-danger btn-block btn-round d-grid gap-2 col-6 mx-auto" type="submit">ログイン</button>
+
                           </form>
+                          <br>
+                          <div *ngIf="errors && errors.length>0" class="alert alert-danger">
+                            <p *ngFor="let error of errors">{{ error.detail }}</p>
+                          </div>
                           <div class="forgot">
                               <a href="#" class="btn btn-link btn-danger">Forgot password?</a>
                           </div>
